@@ -5,7 +5,7 @@
 import XCTest
 
 class ClipBoardTests: BaseTestCase {
-    let url = "www.google.com"
+    let url = "www.example.com"
     var navigator: Navigator!
     var app: XCUIApplication!
 
@@ -24,24 +24,23 @@ class ClipBoardTests: BaseTestCase {
     //Check for test url in the browser
     func checkUrl() {
         let urlTextField = app.textFields["url"]
-        waitForValueContains(urlTextField, value: "www.google")
+        waitForValueContains(urlTextField, value: "www.example")
     }
     
     //Copy url from the browser
     func copyUrl() {
         app.textFields["url"].tap()
-        app.textFields["address"].press(forDuration: 1.7)
+        app.textFields["address"].press(forDuration: 3)
+        waitforExistence(app.menuItems["Select All"])
         app.menuItems["Select All"].tap()
+        waitforExistence(app.menuItems["Copy"])
         app.menuItems["Copy"].tap()
     }
     
     //Check copied url is same as in browser
     func checkCopiedUrl() {
         if let myString = UIPasteboard.general.string {
-            var value = app.textFields["address"].value as! String
-            if myString.hasSuffix("/") == false {
-                value = "\(value)/"
-            }
+            let value = app.textFields["address"].value as! String
             XCTAssertNotNil(myString)
             XCTAssertEqual(myString, value, "Url matches with the UIPasteboard")
         }
@@ -53,12 +52,6 @@ class ClipBoardTests: BaseTestCase {
         checkUrl()
         copyUrl()
         checkCopiedUrl()
-        restart(app)
-        dismissFirstRunUI()
-        app.textFields["url"].tap()
-        app.textFields["address"].press(forDuration: 1.7)
-        app.menuItems["Paste"].tap()
-        app.typeText("\r")
     }
 }
 

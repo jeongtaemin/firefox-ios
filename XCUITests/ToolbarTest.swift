@@ -28,7 +28,7 @@ class ToolbarTests: BaseTestCase {
         XCUIDevice.shared().orientation = .landscapeLeft
 
         // Check that url field is empty and it shows a placeholder
-        navigator.goto(NewTabScreen)
+        //navigator.goto(NewTabScreen)
         let urlPlaceholder = "Search or enter address"
         XCTAssert(app.textFields["url"].exists)
         let defaultValuePlaceholder = app.textFields["url"].placeholderValue!
@@ -59,7 +59,7 @@ class ToolbarTests: BaseTestCase {
 
         // Open new tab and then go back to previous tab to test navigation buttons.
 
-        navigator.goto(NewTabScreen)
+        //navigator.goto(NewTabScreen)
         navigator.goto(TabTray)
 
         waitforExistence(app.collectionViews.cells[website1["label"]!])

@@ -93,7 +93,6 @@ class TopTabsTest: BaseTestCase {
 
     func testCloseOneTab() {
         navigator.openURL(urlString: url)
-        navigator.goto(NewTabScreen)
         navigator.goto(TabTray)
 
         waitforExistence(app.collectionViews.cells[urlLabel])

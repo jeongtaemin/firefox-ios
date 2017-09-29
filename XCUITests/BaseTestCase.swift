@@ -43,14 +43,14 @@ class BaseTestCase: XCTestCase {
         let exists = NSPredicate(format: "exists == true")
         
         expectation(for: exists, evaluatedWith: element, handler: nil)
-        waitForExpectations(timeout: 20, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     func waitforNoExistence(_ element: XCUIElement) {
         let exists = NSPredicate(format: "exists != true")
         
         expectation(for: exists, evaluatedWith: element, handler: nil)
-        waitForExpectations(timeout: 20, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
     
     func waitForValueContains(_ element: XCUIElement, value: String) {
@@ -68,12 +68,8 @@ class BaseTestCase: XCTestCase {
         app.sheets.element(boundBy: 0).buttons.element(boundBy: 0).tap()
 
         if waitForLoadToFinish {
-            let finishLoadingTimeout: TimeInterval = 30
             let progressIndicator = app.progressIndicators.element(boundBy: 0)
-            expectation(for: NSPredicate(format: "exists = true"), evaluatedWith: progressIndicator, handler: nil)
-            expectation(for: NSPredicate(format: "value BEGINSWITH '0'"), evaluatedWith: progressIndicator, handler: nil)
-            
-            waitForExpectations(timeout: finishLoadingTimeout, handler: nil)
+            waitforNoExistence(progressIndicator)
         }
     }
     
@@ -87,7 +83,7 @@ class BaseTestCase: XCTestCase {
 
 extension BaseTestCase {
     func tabTrayButton(forApp app: XCUIApplication) -> XCUIElement {
-        return app.buttons["TopTabsViewController.tabsButton"].exists ? app.buttons["TopTabsViewController.tabsButton"] : app.buttons["URLBarView.tabsButton"]
+        return app.buttons["TopTabsViewController.tabsButton"].exists ? app.buttons["TopTabsViewController.tabsButton"] : app.buttons["TabToolbar.tabsButton"]
     }
 }
 

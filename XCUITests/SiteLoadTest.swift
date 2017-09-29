@@ -36,7 +36,7 @@ class SiteLoadTest: BaseTestCase {
             navigator.goto(TabTray)
             
             navigator.closeAllTabs()
-            navigator.goto(NewTabScreen)
+            navigator.goto(BrowserTab)
             waitforNoExistence(app.staticTexts["1 tab(s) closed"])
             
             // clear the cache
@@ -44,7 +44,7 @@ class SiteLoadTest: BaseTestCase {
             app.tables.staticTexts["Clear Private Data"].tap()
             waitforExistence(app.alerts.buttons["OK"])
             app.alerts.buttons["OK"].tap()
-            navigator.goto(NewTabScreen)
+            navigator.goto(BrowserTab)
             waitforExistence(app.textFields["url"])
             counter += 1
         }

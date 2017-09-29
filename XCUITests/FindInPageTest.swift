@@ -19,16 +19,22 @@ class FindInPageTests: BaseTestCase {
     }
 
     private func openFindInPageFromMenu() {
-        navigator.goto(BrowserTabMenu)
-        let collectionViewsQuery = app.collectionViews
-        waitforExistence(collectionViewsQuery.cells["Find In Page"])
+        navigator.goto(PageOptionsMenu)
+        
+        let FindInPageBtn = app.tables["Context Menu"].staticTexts["Find in Page"]
+        waitforExistence(FindInPageBtn)
 
-        collectionViewsQuery.cells["Find In Page"].tap()
+        FindInPageBtn.tap()
+        navigator.nowAt(BrowserTab)
+        waitforExistence(app.buttons["Next in-page result"])
+        waitforExistence(app.buttons["Previous in-page result"])
         XCTAssertTrue(app.textFields[""].exists)
     }
 
     func testFindFromMenu() {
+        
         openFindInPageFromMenu()
+        
         // Enter some text to start finding
         app.textFields[""].typeText("Book")
 
@@ -71,7 +77,7 @@ class FindInPageTests: BaseTestCase {
 
     func testBarDissapearsWhenReloading() {
         openFindInPageFromMenu()
-
+        
         // Before reloading, it is necessary to hide the keyboard
         app.textFields["url"].tap()
         app.textFields["address"].typeText("\n")
@@ -83,33 +89,39 @@ class FindInPageTests: BaseTestCase {
 
     func testBarDissapearsWhenOpeningTabsTray() {
         openFindInPageFromMenu()
+        
+        // Dismiss keyboard
+        app.buttons["Done"].tap()
+        waitforNoExistence(app.buttons["Done"])
 
         // Going to tab tray and back to the website hides the search field.
-        navigator.nowAt(BrowserTab)
         navigator.goto(TabTray)
 
         waitforExistence(app.collectionViews.cells["The Book of Mozilla"])
         app.collectionViews.cells["The Book of Mozilla"].tap()
         XCTAssertFalse(app.textFields[""].exists)
+        XCTAssertFalse(app.buttons["Next in-page result"].exists)
+        XCTAssertFalse(app.buttons["Previous in-page result"].exists)
     }
 
-//    func testFindFromSelection() {
-//        navigator.goto(BrowserTab)
-//        let textToFind = "from"
-//
-//        // Long press on the word to be found
-//        waitforExistence(app.webViews.staticTexts[textToFind])
-//        let stringToFind = app.webViews.staticTexts.matching(identifier: textToFind)
-//        let firstStringToFind = stringToFind.element(boundBy: 0)
-//        firstStringToFind.press(forDuration: 5)
-//
-//        // Find in page is correctly launched, bar with text pre-filled and the buttons to find next and previous
-//        waitforExistence(app.menuItems["Find in Page"])
-//        app.menuItems["Find in Page"].tap()
-//        waitforExistence(app.textFields[textToFind])
-//        XCTAssertTrue(app.textFields[textToFind].exists, "The bar does not appear with the text selected to be found")
-//        XCTAssertTrue(app.buttons["Previous in-page result"].exists, "Find previus button exists")
-//        XCTAssertTrue(app.buttons["Next in-page result"].exists, "Find next button exists")
-//    }
+    func testFindFromSelection() {
+        navigator.goto(BrowserTab)
+        let textToFind = "from"
+
+        // Long press on the word to be found
+        waitforExistence(app.webViews.staticTexts[textToFind])
+        let stringToFind = app.webViews.staticTexts.matching(identifier: textToFind)
+        let firstStringToFind = stringToFind.element(boundBy: 0)
+        firstStringToFind.press(forDuration: 3)
+
+        // Find in page is correctly launched, bar with text pre-filled and
+        // the buttons to find next and previous
+        waitforExistence(app.menuItems["Find in Page"])
+        app.menuItems["Find in Page"].tap()
+        waitforExistence(app.textFields[textToFind])
+        XCTAssertTrue(app.textFields[textToFind].exists, "The bar does not appear with the text selected to be found")
+        XCTAssertTrue(app.buttons["Previous in-page result"].exists, "Find previus button exists")
+        XCTAssertTrue(app.buttons["Next in-page result"].exists, "Find next button exists")
+    }
 }
 

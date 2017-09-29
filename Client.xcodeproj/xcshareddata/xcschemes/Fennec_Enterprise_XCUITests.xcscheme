@@ -176,7 +176,49 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "BaseTestCase">
+               </Test>
+               <Test
+                  Identifier = "HomePageSettingsTest">
+               </Test>
+               <Test
+                  Identifier = "HomePageUITest">
+               </Test>
+               <Test
+                  Identifier = "NightModeTests">
+               </Test>
+               <Test
+                  Identifier = "NoImageTests">
+               </Test>
+               <Test
+                  Identifier = "PrivateBrowsingTest">
+               </Test>
+               <Test
+                  Identifier = "ReaderViewTest">
+               </Test>
+               <Test
+                  Identifier = "SearchSettingsUITests">
+               </Test>
+               <Test
+                  Identifier = "SearchTests">
+               </Test>
+               <Test
+                  Identifier = "SettingsTest">
+               </Test>
+               <Test
                   Identifier = "SiteLoadTest">
+               </Test>
+               <Test
+                  Identifier = "ThirdPartySearchTest">
+               </Test>
+               <Test
+                  Identifier = "ToolbarTests">
+               </Test>
+               <Test
+                  Identifier = "TopTabsTest">
+               </Test>
+               <Test
+                  Identifier = "TrackingProtectionTests">
                </Test>
             </SkippedTests>
          </TestableReference>

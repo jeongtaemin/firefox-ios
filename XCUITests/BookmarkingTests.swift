@@ -19,28 +19,27 @@ class BookmarkingTests: BaseTestCase {
     }
     
     private func bookmark() {
-        app.buttons["TabLocationView.pageOptionsButton"].tap()
-//        app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .other).element.children(matching: .button).element.tap()
+        navigator.goto(PageOptionsMenu)
         waitforExistence(app.tables.cells["Bookmark This Page"])
         app.tables.cells["Bookmark This Page"].tap()
         navigator.nowAt(BrowserTab)
     }
     
     private func unbookmark() {
-        app.buttons["TabLocationView.pageOptionsButton"].tap()
+        navigator.goto(PageOptionsMenu)
         waitforExistence(app.tables.cells["Remove Bookmark"])
         app.cells["Remove Bookmark"].tap()
         navigator.nowAt(BrowserTab)
     }
     
     private func checkBookmarked() {
-        app.buttons["TabLocationView.pageOptionsButton"].tap()
+        navigator.goto(PageOptionsMenu)
         waitforExistence(app.tables.cells["Remove Bookmark"])
         navigator.goto(BrowserTab)
     }
     
     private func checkUnbookmarked() {
-        app.buttons["TabLocationView.pageOptionsButton"].tap()
+        navigator.goto(PageOptionsMenu)
         waitforExistence(app.tables.cells["Bookmark This Page"])
         navigator.goto(BrowserTab)
     }
@@ -48,15 +47,17 @@ class BookmarkingTests: BaseTestCase {
     func testBookmarkingUI() {
         let url1 = "www.google.com"
         let url2 = "www.mozilla.org"
-        
         // Go to a webpage, and add to bookmarks, check it's added
-        navigator.openNewURL(urlString: url1)
+        navigator.createNewTab()
+        loadWebPage(url1)
+        navigator.nowAt(BrowserTab)
         bookmark()
         checkBookmarked()
         
         // Load a different page on a new tab, check it's not bookmarked
-        //navigator.goto(NewTabScreen)
-        navigator.openNewURL(urlString: url2)
+        navigator.createNewTab()
+        loadWebPage(url2)
+        navigator.nowAt(BrowserTab)
         checkUnbookmarked()
         
         // Go back, check it's still bookmarked, check it's on bookmarks home panel

@@ -32,7 +32,7 @@ class ReaderViewTest: BaseTestCase {
         waitforExistence(app.buttons["Add to Reading List"])
         app.buttons["Add to Reading List"].tap()
     }
-
+/*
     func testAddToReadingList() {
         // Initially reading list is empty
         navigator.goto(NewTabScreen)
@@ -62,7 +62,7 @@ class ReaderViewTest: BaseTestCase {
         let listAfter = app.tables["ReadingTable"].cells.count
         XCTAssertEqual(listAfter, 1, "There should not be any entry in the reading table")
     }
-
+*/
     func testMarkAsReadAndUreadFromReaderView() {
         addContentToReaderView()
 
@@ -74,7 +74,7 @@ class ReaderViewTest: BaseTestCase {
         app.buttons["Mark as Unread"].tap()
         waitforExistence(app.buttons["Mark as Read"])
     }
-
+/*
     func testRemoveFromReadingView() {
         addContentToReaderView()
         // Once the content has been added, remove it
@@ -133,4 +133,5 @@ class ReaderViewTest: BaseTestCase {
         let list = app.tables["ReadingTable"].cells.count
         XCTAssertEqual(list, 0, "There should not be any entry in the reading table")
     }
+ */
 }

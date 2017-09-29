@@ -22,15 +22,21 @@ class SearchTests: BaseTestCase {
     }
     
     private func typeOnSearchBar(text: String) {
-        navigator.goto(URLBarOpen)
+//        navigator.goto(URLBarOpen)
+        app.textFields["url"].tap()
         app.textFields["address"].typeText(text)
     }
     
     private func suggestionsOnOff() {
-        navigator.goto(SearchSettings)
+//        navigator.goto(SearchSettings)
+        app.buttons["TabToolbar.menuButton"].tap()
+        app.tables.cells["Settings"].tap()
+        app.tables.cells["Search"].tap()
         app.tables.switches["Show Search Suggestions"].tap()
+        app.navigationBars["Search"].buttons["Settings"].tap()
+        app.navigationBars["Settings"].buttons["AppSettingsTableViewController.navigationItem.leftBarButtonItem"].tap()
     }
-    
+    /*
     func testPromptPresence() {
         // Suggestion is off by default, so the prompt should appear
         typeOnSearchBar(text: "foobar")
@@ -58,19 +64,18 @@ class SearchTests: BaseTestCase {
         // Suggestions prompt should not appear
         waitforNoExistence(app.tables["SiteTable"].buttons[SuggestedSite])
     }
-    
+     */
     func testDismissPromptPresence() {
         typeOnSearchBar(text: "foobar")
         waitforExistence(app.staticTexts[LabelPrompt])
         
         app.buttons["No"].tap()
         waitforNoExistence(app.tables["SiteTable"].buttons[SuggestedSite])
-        
+        app.buttons["Go"].tap()
+
         // Verify that it is possible to enable suggestions after selecting No
-        navigator.goto(NewTabMenu)
         suggestionsOnOff()
         typeOnSearchBar(text: "foobar")
-        
         waitforExistence(app.tables["SiteTable"].buttons[SuggestedSite])
     }
   
@@ -96,7 +101,7 @@ class SearchTests: BaseTestCase {
         app.textFields["address"].typeText(" b")
         waitforExistence(app.tables["SiteTable"].buttons["foobar burn cd"])
     }
-    
+    /*
     func testCopyPasteComplete() {
         // Copy, Paste and Go to url
         typeOnSearchBar(text: "www.mozilla.org")
@@ -128,7 +133,7 @@ class SearchTests: BaseTestCase {
         let value = app.textFields["address"].value
         XCTAssertEqual(value as? String, "mozilla.org")
     }
-
+*/
     private func changeSearchEngine(searchEngine: String) {
         navigator.goto(SearchSettings)
         // Open the list of default search engines and select the desired
@@ -140,7 +145,7 @@ class SearchTests: BaseTestCase {
         waitForValueContains(app.textFields["url"], value: searchEngine.lowercased())
         
         // Go here so that next time it is possible to access settings
-        navigator.goto(BrowserTabMenu2)
+        navigator.goto(BrowserTabMenu)
         }
     
     func testSearchEngine() {
@@ -159,3 +164,4 @@ class SearchTests: BaseTestCase {
         XCTAssert(app.tables.staticTexts["Yahoo"].exists)
     }
 }
+

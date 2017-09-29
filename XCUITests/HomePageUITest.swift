@@ -17,12 +17,14 @@ class HomePageUITest: BaseTestCase {
 
     func testSetInternalURLAsHomepage() {
         let app = XCUIApplication()
-
+        
         loadWebPage("http://en.m.wikipedia.org/wiki/Main_Page")
         app.buttons["Reader View"].tap()
-        app.buttons["Menu"].tap()
-        app.cells["Set Homepage"].tap()
-
+        let tablocationviewPageoptionsbuttonButton = app/*@START_MENU_TOKEN@*/.buttons["TabLocationView.pageOptionsButton"]/*[[".buttons[\"Page Options Menu\"]",".buttons[\"TabLocationView.pageOptionsButton\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/
+        tablocationviewPageoptionsbuttonButton.tap()
+        app.cells["Set as Homepage"].tap()
+        app.buttons["Set Homepage"].tap()
+        
         XCTAssertTrue(app.alerts.count == 0)
     }
 }

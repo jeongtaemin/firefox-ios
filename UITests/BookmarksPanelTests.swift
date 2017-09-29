@@ -55,7 +55,6 @@ class BookmarksPanelTests: KIFTestCase {
     func testBookmarkPanelBufferOnly() {
         // Insert some data into the buffer. There will be nothing in the mirror, but we can still
         // show Desktop Bookmarks.
-
         createSomeBufferBookmarks()
 
         EarlGrey.select(elementWithMatcher: grey_accessibilityLabel("Bookmarks")).perform(grey_tap())
