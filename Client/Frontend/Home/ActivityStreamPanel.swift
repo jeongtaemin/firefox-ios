@@ -486,7 +486,6 @@ extension ActivityStreamPanel: DataObserverDelegate {
             }
         }
 
-
         accumulate([self.getHighlights, self.getTopSites]).uponQueue(.main) { _ in
             // If there is no pending cache update and highlights are empty. Show the onboarding screen
             self.showHighlightIntro = self.highlights.isEmpty
@@ -547,7 +546,7 @@ extension ActivityStreamPanel: DataObserverDelegate {
             return succeed()
         }
 
-        return pocketAPI.globalFeed(items: 4,locale: Locale.current.identifier, force: showPocket ?? false).bindQueue(.main) { pStory in
+        return pocketAPI.globalFeed(items: 4, locale: Locale.current.identifier, force: showPocket ?? false).bindQueue(.main) { pStory in
             self.pocketStories = pStory
             return succeed()
         }
