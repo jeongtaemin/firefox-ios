@@ -21,13 +21,15 @@ class NightModeTests: BaseTestCase {
     }
     
     private func nightModeOff() {
-        app.buttons["TabToolbar.menuButton"].tap()
+        navigator.goto(BrowserTabMenu)
         app.tables.cells["Disable Night Mode"].tap()
+        navigator.nowAt(BrowserTab)
     }
     
     private func nightModeOn() {
-        app.buttons["TabToolbar.menuButton"].tap()
+        navigator.goto(BrowserTabMenu)
         app.tables.cells["Enable Night Mode"].tap()
+        navigator.nowAt(BrowserTab)
     }
     
     private func checkNightModeOn() {

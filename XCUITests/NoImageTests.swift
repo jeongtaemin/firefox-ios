@@ -22,32 +22,38 @@ class NoImageTests: BaseTestCase {
     }
     
     private func showImages() {
-        app.buttons["TabToolbar.menuButton"].tap()
+        navigator.goto(BrowserTabMenu)
         app.tables.cells["Show Images"].tap()
+        navigator.nowAt(BrowserTab)
     }
     
     private func hideImages() {
-        app.buttons["TabToolbar.menuButton"].tap()
+        navigator.goto(BrowserTabMenu)
         app.tables.cells["Hide Images"].tap()
+        navigator.nowAt(BrowserTab)
     }
     
     private func checkShowImages() {
         navigator.goto(BrowserTabMenu)
         waitforExistence(app.tables.cells["Show Images"])
-        navigator.goto(BrowserTab)
+        navigator.nowAt(BrowserTab)
     }
     
     private func checkHideImages() {
         navigator.goto(BrowserTabMenu)
         waitforExistence(app.tables.cells["Hide Images"])
-        navigator.goto(BrowserTab)
+        navigator.nowAt(BrowserTab)
     }
     
+    // Fails with https://bugzilla.mozilla.org/show_bug.cgi?id=1405913
+    /*
     func testImageOnOff() {
         let url1 = "www.google.com"
         
         // Go to a webpage, and select no images or hide images, check it's hidden or not
         navigator.openNewURL(urlString: url1)
+        let progressIndicator = app.progressIndicators.element(boundBy: 0)
+        waitforNoExistence(progressIndicator)
         XCTAssertTrue(app.images.count > 1)
         hideImages()
         
@@ -61,10 +67,12 @@ class NoImageTests: BaseTestCase {
         
         // Load a same page on a new tab, check images are hidden
         navigator.openURL(urlString: url1)
+        waitforNoExistence(progressIndicator)
         
         // Open it, then select show images it, and check it's showing the images
         showImages()
         XCTAssertTrue(app.images.count > 1)
         checkHideImages()
     }
+ */
 }

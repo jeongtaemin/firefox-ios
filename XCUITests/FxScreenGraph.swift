@@ -9,6 +9,7 @@ let FirstRun = "OptionalFirstRun"
 let TabTray = "TabTray"
 let PrivateTabTray = "PrivateTabTray"
 let URLBarOpen = "URLBarOpen"
+let PrivateURLBarOpen = "PrivateURLBarOpen"
 let BrowserTab = "BrowserTab"
 let PrivateBrowserTab = "PrivateBrowserTab"
 let BrowserTabMenu = "BrowserTabMenu"
@@ -128,6 +129,13 @@ func createScreenGraph(_ app: XCUIApplication, url: String = "https://www.mozill
         scene.typeText(url + "\r", into: app.textFields["address"], to: BrowserTab)
         scene.tap( app.textFields["address"], to: HomePanelsScreen)
     }
+    
+    map.createScene(PrivateURLBarOpen) { scene in
+        // This is used for opening BrowserTab with default mozilla URL
+        // For custom URL, should use Navigator.openNewURL or Navigator.openURL.
+        scene.typeText(url + "\r", into: app.textFields["address"], to:PrivateBrowserTab)
+        scene.tap( app.textFields["address"], to: PrivateHomePanelsScreen)
+    }
 
     let noopAction = {}
     map.createScene(HomePanelsScreen) { scene in
@@ -151,7 +159,7 @@ func createScreenGraph(_ app: XCUIApplication, url: String = "https://www.mozill
         scene.tap(app.buttons["HomePanels.History"], to: P_HomePanel_History)
         scene.tap(app.buttons["HomePanels.ReadingList"], to: P_HomePanel_ReadingList)
         
-        scene.tap(app.textFields["url"], to: URLBarOpen)
+        scene.tap(app.textFields["url"], to: PrivateURLBarOpen)
         scene.tap(app.buttons["TabToolbar.menuButton"], to: BrowserTabMenu)
         if map.isiPad() {
             scene.tap(app.buttons["TopTabsViewController.tabsButton"], to: PrivateTabTray)

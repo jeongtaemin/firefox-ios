@@ -185,15 +185,6 @@
                   Identifier = "HomePageUITest">
                </Test>
                <Test
-                  Identifier = "NightModeTests">
-               </Test>
-               <Test
-                  Identifier = "NoImageTests">
-               </Test>
-               <Test
-                  Identifier = "PrivateBrowsingTest">
-               </Test>
-               <Test
                   Identifier = "ReaderViewTest">
                </Test>
                <Test

@@ -79,6 +79,13 @@ class BaseTestCase: XCTestCase {
         }
         return false
     }
+    
+    func waitUntilPageLoad() {
+        let app = XCUIApplication()
+        let progressIndicator = app.progressIndicators.element(boundBy: 0)
+    
+        waitforNoExistence(progressIndicator)
+    }
 }
 
 extension BaseTestCase {
