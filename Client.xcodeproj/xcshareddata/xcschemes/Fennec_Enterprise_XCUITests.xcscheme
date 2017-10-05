@@ -194,9 +194,6 @@
                   Identifier = "SearchTests">
                </Test>
                <Test
-                  Identifier = "SettingsTest">
-               </Test>
-               <Test
                   Identifier = "SiteLoadTest">
                </Test>
                <Test
@@ -204,9 +201,6 @@
                </Test>
                <Test
                   Identifier = "ToolbarTests">
-               </Test>
-               <Test
-                  Identifier = "TopTabsTest">
                </Test>
                <Test
                   Identifier = "TrackingProtectionTests">

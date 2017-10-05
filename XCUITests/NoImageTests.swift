@@ -36,43 +36,38 @@ class NoImageTests: BaseTestCase {
     private func checkShowImages() {
         navigator.goto(BrowserTabMenu)
         waitforExistence(app.tables.cells["Show Images"])
-        navigator.nowAt(BrowserTab)
+        navigator.goto(BrowserTab)
     }
     
     private func checkHideImages() {
         navigator.goto(BrowserTabMenu)
         waitforExistence(app.tables.cells["Hide Images"])
-        navigator.nowAt(BrowserTab)
+        navigator.goto(BrowserTab)
     }
     
-    // Fails with https://bugzilla.mozilla.org/show_bug.cgi?id=1405913
-    /*
+    private func refreshPage() {
+        app.buttons["TabToolbar.stopReloadButton"].tap()
+        waitUntilPageLoad()
+    }
+    
+    // Now UITest/NoImageModeTest checks the functionality. This test only checks forUI change
     func testImageOnOff() {
         let url1 = "www.google.com"
         
         // Go to a webpage, and select no images or hide images, check it's hidden or not
         navigator.openNewURL(urlString: url1)
-        let progressIndicator = app.progressIndicators.element(boundBy: 0)
-        waitforNoExistence(progressIndicator)
-        XCTAssertTrue(app.images.count > 1)
+        waitUntilPageLoad()
         hideImages()
-        
-        //After image is hidden, only image detected is the lock icon in the UI
-        if iPad() {
-            XCTAssertTrue(app.images.count == 2)
-        } else {
-            XCTAssertTrue(app.images.count == 1)
-        }
         checkShowImages()
+        navigator.goto(BrowserTab)
         
         // Load a same page on a new tab, check images are hidden
         navigator.openURL(urlString: url1)
-        waitforNoExistence(progressIndicator)
-        
+        waitUntilPageLoad()
+
         // Open it, then select show images it, and check it's showing the images
         showImages()
-        XCTAssertTrue(app.images.count > 1)
         checkHideImages()
+        navigator.goto(BrowserTab)
     }
- */
 }

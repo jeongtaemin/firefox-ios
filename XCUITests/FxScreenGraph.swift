@@ -139,10 +139,18 @@ func createScreenGraph(_ app: XCUIApplication, url: String = "https://www.mozill
 
     let noopAction = {}
     map.createScene(HomePanelsScreen) { scene in
-        scene.tap(app.buttons["HomePanels.TopSites"], to: HomePanel_TopSites)
-        scene.tap(app.buttons["HomePanels.Bookmarks"], to: HomePanel_Bookmarks)
-        scene.tap(app.buttons["HomePanels.History"], to: HomePanel_History)
-        scene.tap(app.buttons["HomePanels.ReadingList"], to: HomePanel_ReadingList)
+        scene.gesture(withElement: app.buttons["HomePanels.TopSites"], to: HomePanel_TopSites) {
+            app.buttons["HomePanels.TopSites"].tap()
+        }
+        scene.gesture(withElement: app.buttons["HomePanels.Bookmarks"], to: HomePanel_Bookmarks) {
+            app.buttons["HomePanels.Bookmarks"].tap()
+        }
+        scene.gesture(withElement: app.buttons["HomePanels.History"], to: HomePanel_History) {
+            app.buttons["HomePanels.History"].tap()
+        }
+        scene.gesture(withElement: app.buttons["HomePanels.ReadingList"], to: HomePanel_ReadingList) {
+            app.buttons["HomePanels.ReadingList"].tap()
+        }
         
         scene.tap(app.textFields["url"], to: URLBarOpen)
         scene.tap(app.buttons["TabToolbar.menuButton"], to: BrowserTabMenu)
@@ -367,8 +375,9 @@ extension Navigator {
     // Closes all Tabs from the option in TabTrayMenu
     func closeAllTabs() {
         let app = XCUIApplication()
-        app.buttons["TabTrayController.remoteTabsButton"].tap()
-        app.buttons["Close All Tabs"].tap()
+        app.buttons["TabTrayController.removeTabsButton"].tap()
+        app.sheets.buttons["Close All Tabs"].tap()
+        self.nowAt(HomePanelsScreen)
     }
 
     // Add a new Tab from the New Tab option in Browser Tab Menu
@@ -382,7 +391,7 @@ extension Navigator {
     // Add Tab(s) from the Tab Tray
     func createSeveralTabsFromTabTray(numberTabs: Int) {
         for _ in 1...numberTabs {
-            self.goto(HomePanel_TopSites)
+            self.goto(HomePanelsScreen)
             self.goto(TabTray)
         }
     }

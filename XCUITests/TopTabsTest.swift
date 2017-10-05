@@ -53,6 +53,7 @@ class TopTabsTest: BaseTestCase {
 
     func testAddTabFromContext() {
         navigator.openURL(urlString: urlExample)
+        waitUntilPageLoad()
         // Initially there is only one tab open
         let tabsOpenInitially = app.buttons["Show Tabs"].value
         XCTAssertEqual("1", tabsOpenInitially as? String)
@@ -61,9 +62,8 @@ class TopTabsTest: BaseTestCase {
         waitforExistence(app.webViews.links.staticTexts["More information..."])
         app.webViews.links.staticTexts["More information..."].press(forDuration: 5)
         app.buttons["Open in New Tab"].tap()
-        //waitforExistence(app.buttons["Switch"])
-        //app.buttons["Switch"].tap(force: true)
-
+        waitUntilPageLoad()
+        
         // Open tab tray to check that both tabs are there
         navigator.goto(TabTray)
         waitforExistence(app.collectionViews.cells["Example Domain"])
@@ -97,22 +97,20 @@ class TopTabsTest: BaseTestCase {
 
         waitforExistence(app.collectionViews.cells[urlLabel])
 
-        // 'x' button to close the tab is not visible, so closing by swiping the tab
+        // 'x' button to close the only open tab is not visible, so closing by swiping the tab
         app.collectionViews.cells[urlLabel].swipeRight()
 
-        // After removing only one tab is visible and should be home
-        let numTabsOpen = app.collectionViews.cells.count
-        XCTAssertEqual(numTabsOpen, 1, "After removing one tab there should remain only one")
-        waitforNoExistence(app.collectionViews.cells[urlLabel])
-        waitforExistence(app.collectionViews.cells["home"])
+        // After removing it automatically goes back to the topsiteview
+        waitforExistence(app.buttons["HomePanels.TopSites"])
+        XCTAssertTrue(app.textFields["url"].exists)
     }
 
     func testCloseAllTabsUndo() {
         // A different tab than home is open to do the proper checks
         navigator.openURL(urlString: url)
+        waitUntilPageLoad()
         navigator.createSeveralTabsFromTabTray (numberTabs: 3)
-        navigator.goto(TabTray)
-
+        
         waitforExistence(app.collectionViews.cells[urlLabel])
         let numTabsOpen = app.collectionViews.cells.count
         XCTAssertEqual(numTabsOpen, 4, "The number of regular tabs is not correct")
@@ -120,6 +118,7 @@ class TopTabsTest: BaseTestCase {
         // Close all tabs, undo it and check that the number of tabs is correct
         navigator.closeAllTabs()
         app.buttons["Undo"].tap()
+        navigator.nowAt(BrowserTab)
         navigator.goto(TabTray)
 
         waitforExistence(app.collectionViews.cells[urlLabel])
@@ -130,10 +129,10 @@ class TopTabsTest: BaseTestCase {
     func testCloseAllTabs() {
         // A different tab than home is open to do the proper checks
         navigator.openURL(urlString: url)
-        // Add several tabs from tab tray menu and check that the  number is correct before closing all
+        // Add several tabs from tab tray menu and check that the
+        // number is correct before closing all
         navigator.createSeveralTabsFromTabTray (numberTabs: 3)
-        navigator.goto(TabTray)
-
+        
         waitforExistence(app.collectionViews.cells[urlLabel])
         let numTabsOpen = app.collectionViews.cells.count
         XCTAssertEqual(numTabsOpen, 4, "The number of tabs is not correct after opening 4")

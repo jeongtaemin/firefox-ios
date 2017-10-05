@@ -43,14 +43,14 @@ class BaseTestCase: XCTestCase {
         let exists = NSPredicate(format: "exists == true")
         
         expectation(for: exists, evaluatedWith: element, handler: nil)
-        waitForExpectations(timeout: 10, handler: nil)
+        waitForExpectations(timeout: 20, handler: nil)
     }
     
     func waitforNoExistence(_ element: XCUIElement) {
         let exists = NSPredicate(format: "exists != true")
         
         expectation(for: exists, evaluatedWith: element, handler: nil)
-        waitForExpectations(timeout: 10, handler: nil)
+        waitForExpectations(timeout: 20, handler: nil)
     }
     
     func waitForValueContains(_ element: XCUIElement, value: String) {
