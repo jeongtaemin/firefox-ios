@@ -5,12 +5,16 @@
 import XCTest
 
 class ThirdPartySearchTest: BaseTestCase {
+    var navigator: Navigator!
+    var app: XCUIApplication!
     
     override func setUp() {
         super.setUp()
+        app = XCUIApplication()
+        navigator = createScreenGraph(app).navigator(self)
         dismissFirstRunUI()
     }
-    
+
     override func tearDown() {
         super.tearDown()
     }
@@ -57,8 +61,6 @@ class ThirdPartySearchTest: BaseTestCase {
     }
     
     func testCustomSearchEngineAsDefault() {
-        let app = XCUIApplication()
-        
         // Visit MDN to add a custom search engine
         loadWebPage("https://developer.mozilla.org/en-US/search", waitForLoadToFinish: true)
         
@@ -76,22 +78,13 @@ class ThirdPartySearchTest: BaseTestCase {
         dismissKeyboardAssistant(forApp: app)
         
         // Go to settings and set MDN as the default
-        //        tabTrayButton(forApp: app).tap()
-        //        app.buttons["TabTrayController.menuButton"].tap()
-        app.buttons["TabToolbar.menuButton"].tap()
-        app.tables.cells["Settings"].tap()
-        let tablesQuery = app.tables
-        tablesQuery.cells["Search"].tap()
-        tablesQuery.cells.element(boundBy: 0).tap()
-        tablesQuery.staticTexts["developer.mozilla.org"].tap()
-        app.navigationBars["Search"].buttons["Settings"].tap()
-        app.navigationBars["Settings"].buttons["AppSettingsTableViewController.navigationItem.leftBarButtonItem"].tap()
-        
+        navigator.goto(SearchSettings)
+        app.tables.cells.element(boundBy: 0).tap()
+        app.tables.staticTexts["developer.mozilla.org"].tap()
+        navigator.goto(BrowserTab)
+
         // Perform a search to check
-        tabTrayButton(forApp: app).tap()
-        app.buttons["TabTrayController.addTabButton"].tap()
-        app.textFields["url"].tap()
-        app.typeText("window\r")
+        navigator.openNewURL(urlString:"window")
         
         // Ensure that the default search is MDN
         var url = app.textFields["url"].value as! String
@@ -102,8 +95,6 @@ class ThirdPartySearchTest: BaseTestCase {
     }
     
     func testCustomSearchEngineDeletion() {
-        let app = XCUIApplication()
-        
         // Visit MDN to add a custom search engine
         loadWebPage("https://developer.mozilla.org/en-US/search", waitForLoadToFinish: true)
         
@@ -121,7 +112,6 @@ class ThirdPartySearchTest: BaseTestCase {
         dismissKeyboardAssistant(forApp: app)
         
         let tabTrayButton = self.tabTrayButton(forApp: app)
-        
         tabTrayButton.tap()
         app.buttons["TabTrayController.addTabButton"].tap()
         app.textFields["url"].tap()
@@ -133,22 +123,17 @@ class ThirdPartySearchTest: BaseTestCase {
         app.typeText("\r")
         
         // Go to settings and set MDN as the default
-        //        app.buttons["TabTrayController.menuButton"].tap()
-        app.buttons["TabToolbar.menuButton"].tap()
-        app.tables.cells["Settings"].tap()
-        let tablesQuery = app.tables
-        tablesQuery.cells["Search"].tap()
-        
+        navigator.goto(SearchSettings)
+
         app.navigationBars["Search"].buttons["Edit"].tap()
-        tablesQuery.buttons["Delete developer.mozilla.org"].tap()
-        tablesQuery.buttons["Delete"].tap()
+        app.tables.buttons["Delete developer.mozilla.org"].tap()
+        app.tables.buttons["Delete"].tap()
         
-        app.navigationBars["Search"].buttons["Settings"].tap()
-        app.navigationBars["Settings"].buttons["AppSettingsTableViewController.navigationItem.leftBarButtonItem"].tap()
-        
+        navigator.goto(BrowserTab)
+
         // Perform a search to check
         tabTrayButton.tap(force: true)
-        XCUIApplication().buttons["TabTrayController.addTabButton"].tap()
+        app.buttons["TabTrayController.addTabButton"].tap()
         
         app.textFields["url"].tap()
         app.typeText("window")
@@ -192,12 +177,7 @@ class ThirdPartySearchTest: BaseTestCase {
      */
     
     func testCustomEngineFromIncorrectTemplate() {
-        let app = XCUIApplication()
-        
-        app.buttons["TabToolbar.menuButton"].tap()
-        app.tables.cells["Settings"].tap()
-        let tablesQuery = app.tables
-        tablesQuery.cells["Search"].tap()
+        navigator.goto(SearchSettings)
         app.tables.cells["customEngineViewButton"].tap()
         app.textViews["customEngineTitle"].tap()
         app.typeText("Feeling Lucky")

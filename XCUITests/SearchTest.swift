@@ -28,10 +28,10 @@ class SearchTests: BaseTestCase {
     }
     
     private func suggestionsOnOff() {
-//        navigator.goto(SearchSettings)
-        app.buttons["TabToolbar.menuButton"].tap()
-        app.tables.cells["Settings"].tap()
-        app.tables.cells["Search"].tap()
+        navigator.goto(SearchSettings)
+//        app.buttons["TabToolbar.menuButton"].tap()
+//        app.tables.cells["Settings"].tap()
+//        app.tables.cells["Search"].tap()
         app.tables.switches["Show Search Suggestions"].tap()
         app.navigationBars["Search"].buttons["Settings"].tap()
         app.navigationBars["Settings"].buttons["AppSettingsTableViewController.navigationItem.leftBarButtonItem"].tap()
