@@ -29,7 +29,6 @@ class ThirdPartySearchTest: BaseTestCase {
     }
     
     func testCustomSearchEngines() {
-        let app = XCUIApplication()
         
         // Visit MDN to add a custom search engine
         loadWebPage("https://developer.mozilla.org/en-US/search", waitForLoadToFinish: true)

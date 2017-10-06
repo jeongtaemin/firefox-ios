@@ -179,25 +179,13 @@
                   Identifier = "BaseTestCase">
                </Test>
                <Test
-                  Identifier = "HomePageSettingsTest">
-               </Test>
-               <Test
-                  Identifier = "HomePageUITest">
-               </Test>
-               <Test
                   Identifier = "ReaderViewTest">
                </Test>
                <Test
                   Identifier = "SearchSettingsUITests">
                </Test>
                <Test
-                  Identifier = "SearchTests">
-               </Test>
-               <Test
                   Identifier = "SiteLoadTest">
-               </Test>
-               <Test
-                  Identifier = "ThirdPartySearchTest">
                </Test>
                <Test
                   Identifier = "ToolbarTests">

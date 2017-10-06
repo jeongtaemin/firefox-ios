@@ -68,8 +68,8 @@ class ActivityStreamTest: BaseTestCase {
     }
     
     func testTopSitesRemoveDefaultTopSite() {
-        navigator.goto(BrowserTab)
-        app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 1)
+        navigator.goto(HomePanelsScreen)
+    app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 2)
         
         // Tap on Remove and check that now there should be only 4 default top sites
         selectOptionFromContextMenu (option: "Remove")
@@ -79,7 +79,7 @@ class ActivityStreamTest: BaseTestCase {
     }
     
     func testTopSitesRemoveAllDefaultTopSitesAddNewOne() {
-        navigator.goto(BrowserTab)
+        navigator.goto(HomePanelsScreen)
         
         // Remove all default Top Sites
         for i in allDefaultTopSites {
@@ -92,10 +92,8 @@ class ActivityStreamTest: BaseTestCase {
         XCTAssertEqual(numberOfTopSites, 0, "All top sites should have been removed")
         
         navigator.nowAt(BrowserTab)
-        app.textFields["url"].tap()
-        app.textFields["address"].typeText(newTopSite["url"]!)
-        app.textFields["address"].typeText("\r")
-//        navigator.openURL(urlString: newTopSite["url"]!)
+        navigator.openURL(urlString: newTopSite["url"]!)
+        waitUntilPageLoad()
         if iPad() {
             app.buttons["URLBarView.backButton"].tap()
         } else {
@@ -108,7 +106,7 @@ class ActivityStreamTest: BaseTestCase {
     }
     
     func testTopSitesShiftAfterRemovingOne() {
-        navigator.goto(BrowserTab)
+        navigator.goto(HomePanelsScreen)
         
         // Check top site in first and second cell
         let topSiteFirstCell = app.collectionViews.cells.collectionViews.cells.element(boundBy: 0).label
@@ -162,10 +160,10 @@ class ActivityStreamTest: BaseTestCase {
     }
     
     func testTopSitesOpenInNewTabDefaultTopSite() {
-        navigator.goto(BrowserTab)
-        app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 1)
+        navigator.goto(HomePanelsScreen)
+    app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 2)
         selectOptionFromContextMenu (option: "Open in New Tab")
-        sleep(3)
+        waitUntilPageLoad()
         // Check that two tabs are open and one of them is the default top site one
         navigator.goto(TabTray)
         waitforExistence(app.collectionViews.cells[defaultTopSite["bookmarkLabel"]!])
@@ -207,10 +205,10 @@ class ActivityStreamTest: BaseTestCase {
     }
     
     func testTopSitesOpenInNewPrivateTabDefaultTopSite() {
-        navigator.goto(BrowserTab)
-        app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 1)
+        navigator.goto(HomePanelsScreen)
+    app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 1)
         selectOptionFromContextMenu (option: "Open in New Private Tab")
-        sleep(3)
+        waitUntilPageLoad()
         // Check that two tabs are open and one of them is the default top site one
         navigator.goto(PrivateTabTray)
         waitforExistence(app.collectionViews.cells[defaultTopSite["bookmarkLabel"]!])
@@ -220,8 +218,8 @@ class ActivityStreamTest: BaseTestCase {
     
     func testTopSitesBookmarkDefaultTopSite() {
         // Bookmark a default TopSite
-        navigator.goto(BrowserTab)
-        app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 1)
+        navigator.goto(HomePanelsScreen)
+    app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 2)
         selectOptionFromContextMenu (option: "Bookmark")
         
         // Check that it appears under Bookmarks menu
@@ -230,7 +228,7 @@ class ActivityStreamTest: BaseTestCase {
         
         // Check that longtapping on the TopSite gives the option to remove it
         navigator.goto(HomePanel_TopSites)
-        app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 1)
+    app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 2)
         XCTAssertTrue(app.tables["Context Menu"].cells["Remove Bookmark"].exists)
         
         // Unbookmark it
@@ -268,8 +266,8 @@ class ActivityStreamTest: BaseTestCase {
     }
     
     func testTopSitesShareDefaultTopSite () {
-        navigator.goto(BrowserTab)
-        app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 1)
+        navigator.goto(HomePanelsScreen)
+    app.collectionViews.cells["TopSitesCell"].cells[defaultTopSite["topSiteLabel"]!].press(forDuration: 2)
         
         // Tap on Share option and verify that the menu is shown and it is possible to cancel it
         selectOptionFromContextMenu (option: "Share")

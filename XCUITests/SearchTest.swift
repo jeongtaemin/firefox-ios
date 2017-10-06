@@ -22,21 +22,17 @@ class SearchTests: BaseTestCase {
     }
     
     private func typeOnSearchBar(text: String) {
-//        navigator.goto(URLBarOpen)
         app.textFields["url"].tap()
         app.textFields["address"].typeText(text)
     }
     
     private func suggestionsOnOff() {
         navigator.goto(SearchSettings)
-//        app.buttons["TabToolbar.menuButton"].tap()
-//        app.tables.cells["Settings"].tap()
-//        app.tables.cells["Search"].tap()
         app.tables.switches["Show Search Suggestions"].tap()
         app.navigationBars["Search"].buttons["Settings"].tap()
-        app.navigationBars["Settings"].buttons["AppSettingsTableViewController.navigationItem.leftBarButtonItem"].tap()
+    app.navigationBars["Settings"].buttons["AppSettingsTableViewController.navigationItem.leftBarButtonItem"].tap()
     }
-    /*
+    
     func testPromptPresence() {
         // Suggestion is off by default, so the prompt should appear
         typeOnSearchBar(text: "foobar")
@@ -50,21 +46,21 @@ class SearchTests: BaseTestCase {
         
         // Suggestions should be shown
         waitforExistence(app.tables["SiteTable"].buttons[SuggestedSite])
+        app.buttons["goBack"].tap()
         
         // Verify that previous choice is remembered
-        navigator.goto(NewTabScreen)
         typeOnSearchBar(text: "foobar")
         waitforExistence(app.tables["SiteTable"].buttons[SuggestedSite])
         
         // Reset suggestion button, set it to off
-        navigator.goto(NewTabScreen)
+        app.buttons["goBack"].tap()
         suggestionsOnOff()
         typeOnSearchBar(text: "foobar")
         
         // Suggestions prompt should not appear
         waitforNoExistence(app.tables["SiteTable"].buttons[SuggestedSite])
     }
-     */
+ 
     func testDismissPromptPresence() {
         typeOnSearchBar(text: "foobar")
         waitforExistence(app.staticTexts[LabelPrompt])
@@ -101,39 +97,40 @@ class SearchTests: BaseTestCase {
         app.textFields["address"].typeText(" b")
         waitforExistence(app.tables["SiteTable"].buttons["foobar burn cd"])
     }
-    /*
+    
     func testCopyPasteComplete() {
         // Copy, Paste and Go to url
         typeOnSearchBar(text: "www.mozilla.org")
-        app.textFields["address"].press(forDuration: 5)
+        app.textFields["address"].press(forDuration: 3)
         app.menuItems["Select All"].tap()
         app.menuItems["Copy"].tap()
         
-        navigator.goto(URLBarOpen)
-        app.textFields["address"].tap()
-        waitforExistence(app.menuItems["Paste"])
-        app.menuItems["Paste"].tap()
+        app.buttons["goBack"].tap()
+        waitforExistence(app.textFields["url"])
+        app.textFields["url"].press(forDuration: 3)
+        waitforExistence(app.sheets.buttons["Paste"])
+        app.sheets.buttons["Paste"].tap()
         
         // Verify that the Paste shows the search controller with prompt
         waitforExistence(app.staticTexts[LabelPrompt])
         app.typeText("\r")
         
         // Check that the website is loaded
-        waitForValueContains(app.textFields["url"], value: "https://www.mozilla.org")
-        
+        waitForValueContains(app.textFields["url"], value: "www.mozilla.org")
         // Go back, write part of moz, check the autocompletion
         if iPad() {
             app.buttons["URLBarView.backButton"].tap()
         } else {
             app.buttons["TabToolbar.backButton"].tap()
         }
-        navigator.nowAt(NewTabScreen)
+        navigator.nowAt(HomePanelsScreen)
+  
         typeOnSearchBar(text: "moz")
         waitForValueContains(app.textFields["address"], value: "mozilla.org")
         let value = app.textFields["address"].value
         XCTAssertEqual(value as? String, "mozilla.org")
     }
-*/
+
     private func changeSearchEngine(searchEngine: String) {
         navigator.goto(SearchSettings)
         // Open the list of default search engines and select the desired

@@ -129,7 +129,6 @@ class NavigationTest: BaseTestCase {
     }
 
     func testScrollsToTopWithMultipleTabs() {
-        navigator.goto(TabTray)
         navigator.openURL(urlString: website_1["url"]!)
         waitForValueContains(app.textFields["url"], value: website_1["value"]!)
 
